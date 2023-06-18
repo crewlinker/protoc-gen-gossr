@@ -19,3 +19,8 @@
 
 # Go workspace file
 go.work
+# test output
+test-report.xml
+# annoying mac file
+.DS_Store
+dist/

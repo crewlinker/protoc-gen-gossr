@@ -15,6 +15,8 @@ This code generator offers a solution by utilizing Protobuf, a language-agnostic
 - MUST for frame X: generate a public render method on X's go representation
 - MUST for frame X: generate template funcs that allow the frame to be rendered from other templates
 - SHOULD only generate the template func of message X when the c message's fields (in)directly reference the frame's message
-- COULD for each frame: generate a test function that automatically fuzzes the render method
-- COULD for each frame fuzz test: generate the assertion that it is valid html (no open tags)
+- SHOULD for each frame: generate a test function that automatically fuzzes the render method
+- SHOULD for each frame fuzz test: generate the assertion that it is valid html (no open tags)
 - COULD have the generated code only be dependant on the std library
+- COULD generate visual (regression) tests for example representations of each frame (corpus)
+- COULD generate a http.Handler that renders each example in isolation (for visual testing)

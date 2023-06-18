@@ -1,0 +1,41 @@
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable
+          cache: false
+      - uses: actions/checkout@v3
+      - uses: golangci/golangci-lint-action@v3
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/setup-go@v4
+        with:
+          go-version: stable
+          cache: false
+      - uses: actions/checkout@v3
+      - name: Install buf
+        uses: bufbuild/buf-setup-action@v1
+      - name: Install tooling
+        run: |
+          go install -mod=readonly github.com/magefile/mage
+      - name: Run all tests
+        run: |
+          mage -v test
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: success() || failure()
+        with:
+          check_name: Test Report
+          report_paths: "test-report.xml"
