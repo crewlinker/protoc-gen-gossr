@@ -3,6 +3,7 @@ module github.com/crewlinker/protoc-gen-gossr
 go 1.20
 
 require (
+	github.com/google/gofuzz v1.2.1-0.20221018181003-5dfa3b7056d4
 	github.com/magefile/mage v1.15.0
 	github.com/onsi/ginkgo/v2 v2.9.7
 	github.com/onsi/gomega v1.27.7

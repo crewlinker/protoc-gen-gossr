@@ -5,10 +5,10 @@ managed:
     default: github.com/crewlinker/protoc-gen-gossr/proto
 plugins:
   - name: go
-    out: proto
+    out: .
     opt: paths=source_relative
     path: ["go", "run", "google.golang.org/protobuf/cmd/protoc-gen-go"]
   - name: gossr
-    out: proto
+    out: .
     opt: paths=source_relative
     path: ["go", "run", "."]

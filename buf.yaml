@@ -5,6 +5,8 @@ lint:
     - COMMENTS
     - UNARY_RPC
     - PACKAGE_NO_IMPORT_CYCLE
+  ignore:
+    - examples/fuzz/v1
 breaking:
   use:
     - FILE

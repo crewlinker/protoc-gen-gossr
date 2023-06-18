@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package examples.fuzz.v1;
+
+// Message being imported
+message ImportMessage {}
+
+// Enum being imported
+enum ImportEnum {
+    IMPORT_ZERO = 0;
+}

@@ -14,6 +14,15 @@ func init() {
 	mustBeInRoot()
 }
 
+// Generate generates protobuf Go files.
+func Generate() error {
+	if err := sh.Run("buf", "generate"); err != nil {
+		return fmt.Errorf("failed to generate: %w", err)
+	}
+
+	return nil
+}
+
 // Check checks the codebase using static analysis.
 func Check() error {
 	if err := sh.Run("golangci-lint", "run"); err != nil {
