@@ -1,9 +1,13 @@
 syntax = "proto3";
 
 package examples.kitchen.v1;
+import "google/protobuf/field_mask.proto";
 
 // descibe the dining table
 message DiningTable {
+
+    google.protobuf.FieldMask mask = 4;
+
     string reservation = 2;
     int64 nr_of_legs = 1;
 }

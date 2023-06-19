@@ -31,3 +31,8 @@ var _ = Describe("fuzz complex message", func() {
 	},
 		Entry("current time", int64(time.Now().Nanosecond())))
 })
+
+var _ = Describe("test valid xml", func() {
+	It("should be valid xml", func() {
+	})
+})
