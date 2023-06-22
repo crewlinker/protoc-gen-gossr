@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"embed"
 	"html/template"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/crewlinker/protoc-gen-gossr/gossr"
@@ -71,5 +73,54 @@ var _ = Describe("view", func() {
 
 	It("should return empty livedir by default", func() {
 		Expect(view1.LiveDir()).To(BeEmpty())
+	})
+})
+
+var _ = Describe("blog example", func() {
+	var view1 *gossr.View
+	Describe("embedded render", func() {
+		BeforeEach(func() {
+			view1 = gossr.New("", template.FuncMap{})
+			Expect(blogv1.RegisterBlogIndexTemplate(view1)).To(Succeed())
+			Expect(blogv1.RegisterBlogAuthorTemplate(view1)).To(Succeed())
+		})
+
+		It("should render blog index", func() {
+			msg1 := &blogv1.BlogIndex{Title: "foo title"}
+			buf1 := bytes.NewBuffer(nil)
+
+			Expect(msg1.Render(buf1, view1)).To(Succeed())
+			Expect(buf1.String()).To(MatchRegexp(`<main><h1>blog index: foo title</h1></main>`))
+			Expect(buf1.String()).To(MatchRegexp(`<title>Blog | foo title</title>`))
+		})
+
+		It("should render author", func() {
+			msg1 := &blogv1.BlogAuthor{FirstName: "John", LastName: "Doe"}
+			buf1 := bytes.NewBuffer(nil)
+
+			Expect(msg1.Render(buf1, view1)).To(Succeed())
+			Expect(buf1.String()).To(MatchRegexp(`<span>John</span><span>Doe</span>`))
+		})
+	})
+
+	Describe("live render", func() {
+		var liveDir string
+		BeforeEach(func() {
+			liveDir, _ = os.MkdirTemp("", "gossr_*")
+			view1 = gossr.New(liveDir, template.FuncMap{})
+			Expect(blogv1.RegisterFooTemplate(view1)).To(Succeed())
+
+			Expect(os.Mkdir(filepath.Join(liveDir, "testdata"), 0o777)).To(Succeed())
+		})
+
+		It("should render from template on-disk", func() {
+			msg1 := &blogv1.Foo{}
+			buf1 := bytes.NewBuffer(nil)
+
+			Expect(os.WriteFile(filepath.Join(liveDir, "testdata", "foo.html"), []byte(`foo`), 0o600)).To(Succeed())
+
+			Expect(msg1.Render(buf1, view1)).To(Succeed())
+			Expect(buf1.String()).To(MatchRegexp(`foo`))
+		})
 	})
 })

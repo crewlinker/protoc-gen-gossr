@@ -22,3 +22,8 @@ message BlogAuthor {
     // last name
     string last_name = 2;
 }
+
+// Message foo
+message Foo{
+    option (gossr.v1.msg).template = "testdata/foo.html";
+}

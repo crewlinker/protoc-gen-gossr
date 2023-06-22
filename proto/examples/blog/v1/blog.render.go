@@ -102,3 +102,48 @@ func (x *BlogAuthor) Render(wrt io.Writer, view interface {
 	}
 	return nil
 }
+func fooTmplNames() []string {
+	return []string{"testdata/foo.html"}
+}
+
+//go:embed testdata/foo.html
+var fooTmplFiles embed.FS
+
+// RegisterFooTemplate registers the embedded template onto  the view.
+func RegisterFooTemplate(view interface {
+	Parse(fs.FS, string, ...string) (*template.Template, error)
+	RegisterEmbedded(protoreflect.MessageDescriptor, *template.Template) error
+}) error {
+	tmpl, err := view.Parse(fooTmplFiles, fooTmplNames()[0], fooTmplNames()[1:]...)
+	if err != nil {
+		return fmt.Errorf("failed to parse: %w", err)
+	}
+	err = view.RegisterEmbedded((&Foo{}).ProtoReflect().Descriptor(), tmpl)
+	if err != nil {
+		return fmt.Errorf("failed to register: %w", err)
+	}
+	return nil
+}
+
+// Render renders the message using a template.
+func (x *Foo) Render(wrt io.Writer, view interface {
+	LiveDir() string
+	Parse(fs.FS, string, ...string) (*template.Template, error)
+	Embedded(protoreflect.MessageDescriptor) (*template.Template, error)
+}) error {
+	tmpl, err := view.Embedded(x.ProtoReflect().Descriptor())
+	if err != nil {
+		return fmt.Errorf("failed to get embedded template: %w", err)
+	}
+	if liveDir := view.LiveDir(); liveDir != "" {
+		tmpl, err = view.Parse(os.DirFS(liveDir), fooTmplNames()[0], fooTmplNames()[1:]...)
+		if err != nil {
+			return fmt.Errorf("failed to parse template: %w", err)
+		}
+	}
+	err = tmpl.Execute(wrt, x)
+	if err != nil {
+		return fmt.Errorf("failed to get execute template: %w", err)
+	}
+	return nil
+}
