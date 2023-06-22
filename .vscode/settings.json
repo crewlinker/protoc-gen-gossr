@@ -7,6 +7,15 @@
     "formatting.gofumpt": true,
     "ui.semanticTokens": true
   },
+  "files.exclude": {
+    ".vscode": true, // use the editor command to open it
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
   "[markdown]": {
     "editor.unicodeHighlight.ambiguousCharacters": false,
     "editor.unicodeHighlight.invisibleCharacters": false,
@@ -17,6 +26,27 @@
       "comments": "off",
       "strings": "off",
       "other": "off"
+    }
+  },
+  "[yaml]": {
+    "editor.autoIndent": "advanced",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.formatOnSave": true,
+    "editor.suggest.insertMode": "replace",
+    "editor.quickSuggestions": {
+      "strings": true
     }
   }
 }

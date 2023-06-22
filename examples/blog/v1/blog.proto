@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package examples.blog.v1;
+import "gossr/v1/options.proto";
+
+// BlogIndex describes the blog homepage
+message BlogIndex {
+    option (gossr.v1.msg).template = "layout.html";
+    option (gossr.v1.msg).template = "base.html";
+    option (gossr.v1.msg).template = "blog_index.html";
+
+    // Title of the page
+    string title = 1;
+}

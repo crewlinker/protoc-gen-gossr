@@ -1,0 +1,16 @@
+syntax = "proto2";
+package gossr.v1;
+
+import "google/protobuf/descriptor.proto";
+option go_package = "github.com/crewlinker/protoc-gen-gossr/proto/gossr/v1;gossrv1";
+
+// MessageOptions presents options to configure fields to interact with protobuf powered rpc
+message MessageOptions {
+    // template option configures the name of one or more templates that work together to
+    // render the message.
+    repeated string template = 1;
+}
+
+extend google.protobuf.MessageOptions {
+    optional MessageOptions msg = 1098;
+}
