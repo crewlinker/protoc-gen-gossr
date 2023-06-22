@@ -5,10 +5,20 @@ import "gossr/v1/options.proto";
 
 // BlogIndex describes the blog homepage
 message BlogIndex {
-    option (gossr.v1.msg).template = "layout.html";
-    option (gossr.v1.msg).template = "base.html";
-    option (gossr.v1.msg).template = "blog_index.html";
+    option (gossr.v1.msg).template = "testdata/_layout.html";
+    option (gossr.v1.msg).template = "testdata/_main.html";
+    option (gossr.v1.msg).template = "testdata/blog/index.html";
 
     // Title of the page
     string title = 1;
+}
+
+// Some partial for a blog author
+message BlogAuthor {
+    option (gossr.v1.msg).template = "testdata/partials/blog_author.html";
+    
+    // first name
+    string first_name = 1;
+    // last name
+    string last_name = 2;
 }
